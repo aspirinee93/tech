@@ -2,7 +2,7 @@
   <div class='app'>
 
     <div class='app__input__cut'>
-     input
+     <InputCut />
     </div>
 
     <div class='app__graf'>
@@ -21,7 +21,9 @@
 </template>
 
 <script>
-export default {}
+import InputCut from '../components/InputCut.vue';
+
+export default { components: { InputCut } }
 </script>
 
 <style>
