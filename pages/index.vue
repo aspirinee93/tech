@@ -3,6 +3,7 @@
 
     <div class='app__input__cut'>
      <InputCut />
+     <ProgramPrint />
     </div>
 
     <div class='app__graf'>

@@ -6,8 +6,7 @@
       <input v-model="ap" type="text" placeholder="Укажите глубину резания, мм" />
       <button type="submit">Составть программу</button>
     </form>
-    <div v-html=" $store.state.g71.prog">
-    </div>
+
   </div>
 </template>
 
