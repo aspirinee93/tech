@@ -27,31 +27,16 @@ export default {
     };
   },
   methods: {
-    validPoint() {
-      if (
-        isNaN(Number(this.addX)) ||
-        isNaN(Number(this.addY)) ||
-        this.addX === '' ||
-        this.addY === ''
-      ) {
-        alert('Введите числа');
-        return;
-      } else {
-        return true;
-      }
-    },
-    validPoint2() {
-      if (
-        isNaN(Number(this.remX)) ||
-        isNaN(Number(this.remY)) ||
-        this.remX === '' ||
-        this.remY === ''
-      ) {
-        alert('Введите числа');
-        return;
-      } else {
-        return true;
-      }
+    validPoint(){
+      if (!this.$store.state.points.showWin){
+        const pointInCheck = [this.addX, this.addY]
+        this.$store.commit('checkValid/validPoints', pointInCheck)
+        return this.$store.state.checkValid.flag
+        } else {
+          const pointInCheck = [this.remX, this.remY]
+          this.$store.commit('checkValid/validPoints', pointInCheck)
+          return this.$store.state.checkValid.flag
+        }
     },
     addPoints() {
       if (this.validPoint()) {
@@ -64,7 +49,7 @@ export default {
       }
     },
     removePoint() {
-      if (this.validPoint2()) {
+      if (this.validPoint()) {
         this.$store.commit('points/removePoint', {
           pointX: Number(this.remX),
           pointY: Number(this.remY),

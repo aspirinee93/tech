@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import InputCut from '../components/InputCut.vue';
+export default {
 
-export default { components: { InputCut } }
+}
 </script>
 
 <style>
