@@ -37,8 +37,10 @@ export default {
         const points = this.$store.state.points.pointList;
         const listCut = [this.speed, this.feed, this.ap, points];
         this.$store.commit('g71/createProgG71', listCut);
-        console.log(this.$store.state.g71.prog);
       }
+      this.speed = ''
+      this.feed = ''
+      this.ap = ''
     },
   },
 };
