@@ -30,11 +30,11 @@ export default {
     validPoint(){
       if (!this.$store.state.points.showWin){
         const pointInCheck = [this.addX, this.addY]
-        this.$store.commit('checkValid/validPoints', pointInCheck)
+        this.$store.commit('checkValid/validInput', pointInCheck)
         return this.$store.state.checkValid.flag
         } else {
           const pointInCheck = [this.remX, this.remY]
-          this.$store.commit('checkValid/validPoints', pointInCheck)
+          this.$store.commit('checkValid/validInput', pointInCheck)
           return this.$store.state.checkValid.flag
         }
     },
