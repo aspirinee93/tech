@@ -10,7 +10,7 @@
       Очистить
     </button>
     <br />
-    <div v-if="$store.state.points.showWin">
+    <div v-if="$store.state.points.showWinUpdatePoint">
       <form class="form" @submit.prevent="removePoint">
         <input v-model="remX" type="text" :placeholder="fetchPoint.pointX" />
         <input v-model="remY" type="text" :placeholder="fetchPoint.pointY" />
@@ -18,6 +18,17 @@
         <button type="submit">Изменить</button>
       </form>
       <button class="btn__clean" @click="closeWin" type="submit">Закрыть</button>
+    </div>
+    <br />
+    <div v-if="$store.state.points.showWinAddPointByIndex">
+      <form class="form" @submit.prevent="addPointsByIndex">
+      <input v-model="addX" type="text" placeholder="Введите X" />
+      <input v-model="addY" type="text" placeholder="Введите Z" />
+      <input v-model="addR" type="text" placeholder="Введите R, если необходимо" />
+      <input v-model="addIndex" type="text" placeholder="Введите новый номер точки" />
+      <button type="submit">Добавить</button>
+    </form>
+      <button class="btn__clean" @click="closeWinAddPoint" type="submit">Закрыть</button>
     </div>
   </div>
 </template>
@@ -29,14 +40,41 @@ export default {
       addX: '',
       addY: '',
       addR: '',
+      addIndex: '',
       remX: '',
       remY: '',
       remR: '',
     };
   },
   methods: {
+    addPoints(){
+      const data = {
+        pointX: this.addX,
+        pointY: this.addY,
+        radius: this.addR,
+      }
+      this.$store.commit('points/addNewPoint', data)
+    },
+    addPointsByIndex(){
+      const data = {
+        pointX: this.addX,
+        pointY: this.addY,
+        radius: this.addR,
+      }
+      this.$store.commit('points/addPointsByIndex', data)
+    },
+    removePoints(){
+      const data = {
+        pointX: this.addX,
+        pointY: this.addY,
+        radius: this.addR,
+      }
+      this.$store.commit('points/removePoint', data)
+    },
+
+
     validPoint() {
-      if(!this.$store.state.points.showWin) {
+      if(!this.$store.state.points.showWinUpdatePoint) {
         if(this.addR){
           if(this.$store.state.points.pointList.length === 0){
             this.addR = 0
@@ -101,8 +139,11 @@ export default {
     cleanAllPoint(){
       this.$store.commit('points/cleanPoint')
     },
-    closeWin() {
-      this.$store.commit('points/closeWin')
+    closeWinAddPoint() {
+      this.$store.commit('points/showWinUpdatePoint')
+    },
+    closeWinAddPointByIndex() {
+      this.$store.commit('points/showWinAddPointByIndex')
     }
   },
   computed: {

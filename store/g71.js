@@ -1,12 +1,14 @@
 export const state = () => ({
-  prog: '',
+  prog: "",
 });
 
 export const mutations = {
   createProgG71(state, objInfo) {
-    let flag = false
-    state.prog = '';
-    state.prog += '%'
+
+    let flag = false;
+    
+    state.prog = "";
+    state.prog += "%";
     if (objInfo.numTool >= 10) {
       state.prog += `<div>T${objInfo.numTool}${objInfo.numTool};</div>`;
     } else {
@@ -21,29 +23,30 @@ export const mutations = {
     state.prog += `<div>G01 Z${objInfo.points[0].pointY + 2} F0.5;</div>`;
     state.prog += `<div>G71 U${objInfo.ap} R${objInfo.apUp};</div>`;
     state.prog += `<div>G71 P1 Q2 U${objInfo.allowanceX} W${objInfo.allowanceZ} F${objInfo.feed};</div>`;
+
     for (let i = 0; i < objInfo.points.length; i++) {
       if (i === 0) {
-        flag = true
+        flag = true;
         state.prog += `<div>N1 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
       } else if (i === objInfo.points.length - 1) {
         if (objInfo.points[i].radius > 0) {
-          flag = false
+          flag = false;
           state.prog += `<div>N2 G02 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
         } else if (objInfo.points[i].radius < 0) {
-          flag = false
+          flag = false;
           state.prog += `<div>N2 G03 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
         } else {
-          if(flag){
+          if (flag) {
             state.prog += `<div>N2 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
           } else {
             state.prog += `<div>N2 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
           }
         }
       } else if (objInfo.points[i].radius > 0) {
-        flag = false
+        flag = false;
         state.prog += `<div>G02 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
       } else if (objInfo.points[i].radius < 0) {
-        flag = false
+        flag = false;
         state.prog += `<div>G03 X${objInfo.points[i].pointX} Z${
           objInfo.points[i].pointY
         } R${objInfo.points[i].radius * -1};</div>`;
@@ -51,16 +54,16 @@ export const mutations = {
         if (flag) {
           state.prog += `<div>X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
         } else {
-          flag = true
+          flag = true;
           state.prog += `<div>G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
         }
       }
     }
     state.prog += `<div>G00 Z150 M9;</div>`;
     state.prog += `<div>M30;</div>`;
-    state.prog += '%'
+    state.prog += "%";
   },
   clearProg(state) {
-    state.prog = '';
+    state.prog = "";
   },
 };
