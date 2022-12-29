@@ -37,20 +37,34 @@ export default {
   },
   methods: {
     validPoint() {
-      if (!this.$store.state.points.showWin) {
+      if(!this.$store.state.points.showWin) {
         if(this.addR){
-          const pointInCheck = [this.addX, this.addY, this.addR];
-          this.$store.commit('checkValid/validInput', pointInCheck);
-          return this.$store.state.checkValid.flag;
+          if(this.$store.state.points.pointList.length === 0){
+            this.addR = 0
+            const pointInCheck = [this.addX, this.addY];
+            this.$store.commit('checkValid/validInput', pointInCheck);
+            return this.$store.state.checkValid.flag;
+            } else {
+              const pointInCheck = [this.addX, this.addY, this.addR];
+              this.$store.commit('checkValid/validInput', pointInCheck);
+              return this.$store.state.checkValid.flag;
+            }
           } else {
             const pointInCheck = [this.addX, this.addY];
             this.$store.commit('checkValid/validInput', pointInCheck);
             return this.$store.state.checkValid.flag;
           }
       } else {
-        const pointInCheck = [this.remX, this.remY, this.remR];
-        this.$store.commit('checkValid/validInput', pointInCheck);
-        return this.$store.state.checkValid.flag;
+        if(this.$store.state.points.point.index === 0){
+          this.remR = 0
+          const pointInCheck = [this.remX, this.remY, this.remR];
+          this.$store.commit('checkValid/validInput', pointInCheck);
+          return this.$store.state.checkValid.flag;
+        } else {
+          const pointInCheck = [this.remX, this.remY, this.remR];
+          this.$store.commit('checkValid/validInput', pointInCheck);
+          return this.$store.state.checkValid.flag;
+        }
       }
     },
     addPoints() {
