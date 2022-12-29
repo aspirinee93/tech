@@ -4,6 +4,7 @@ export const state = () => ({
 
 export const mutations = {
   createProgG71(state, objInfo) {
+    state.prog = ''
     if (objInfo.numTool >= 10) {
       state.prog += `<p>T${objInfo.numTool}${objInfo.numTool};</p>`
     } else {
@@ -17,7 +18,15 @@ export const mutations = {
     state.prog += `<p>G71 U${objInfo.ap} R${objInfo.apUp};</p>`
     state.prog += `<p>G71 P1 Q1 U${objInfo.allowanceX} W${objInfo.allowanceZ} F${objInfo.feed};</p>`
     for(let i = 0; i < objInfo.points.length; i++){
-      state.prog += `<p>Точка${i+1}: X=${objInfo.points[i].pointX} Y=${objInfo.points[i].pointY}</p>`
+      if(i===0){
+        state.prog += `<p>P1 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+      } else if (i === objInfo.points.length-1) {
+        state.prog += `<p>P2 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+      } else {
+        state.prog += `<p>G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+      }
     }
+    state.prog += `<p>G00 Z150 M9;</p>`
+    state.prog += `<p>M30;</p>`
   }
 }
