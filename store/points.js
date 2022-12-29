@@ -25,6 +25,9 @@ export const mutations = {
     state.pointList.splice(inx, 1, point)
     state.point = ''
     state.showWin = false
+  },
+  cleanPoint(state){
+    state.pointList = []
   }
 }
 

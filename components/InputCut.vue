@@ -1,39 +1,68 @@
 <template>
   <div>
-    <form class="form" @submit.prevent="createProgramm">
+    <form class="form__input" @submit.prevent="createProgramm">
+      Номер инструмента
       <input
         v-model="numTool"
+        class="input__field"
         type="text"
         placeholder="Укажите номер инструмента"
       />
+      Скорость резания, мм/мин
       <input
         v-model="speed"
+        class="input__field"
         type="text"
         placeholder="Укажите скорость резания, мм/мин"
       />
-      <input v-model="feed" type="text" placeholder="Укажите подачу, мм/об" />
+      Подача, мм/об
+      <input
+        v-model="feed"
+        class="input__field"
+        type="text"
+        placeholder="Укажите подачу, мм/об"
+      />
+      Глубина резания, мм
       <input
         v-model="ap"
+        class="input__field"
         type="text"
         placeholder="Укажите глубину резания, мм"
       />
+      Величина отскока, мм
       <input
         v-model="apUp"
+        class="input__field"
         type="text"
         placeholder="Укажите величину отскока, мм"
       />
+      Припуск на диаметр, мм
       <input
         v-model="allowanceX"
+        class="input__field"
         type="text"
         placeholder="Укажите припуск на диаметр, мм"
       />
+      Припуск на длину, мм
       <input
         v-model="allowanceZ"
+        class="input__field"
         type="text"
-        placeholder="Укажите длину, мм"
+        placeholder="Укажите припуск на длину, мм"
       />
-      <button type="submit">Составить программу</button>
+
+      <div class="input__field" v-if="!$store.state.g71.prog">
+        <button class="input__field" type="submit">Составить программу</button>
+      </div>
+      <div class="input__field" v-else>
+        <button class="input__field" type="submit">Обновить программу</button>
+      </div>
     </form>
+    <div>
+      <button class="input__field" @click="cleanProgAndInput" type="submit">
+        Очистить
+      </button>
+    </div>
   </div>
 </template>
 
@@ -51,33 +80,47 @@ export default {
     };
   },
   methods: {
-    validInput(){
-      const inputInCheck = [this.speed, this.feed, this.ap, this.apUp, this.allowanceX, this.allowanceZ]
-      this.$store.commit('checkValid/validInput', inputInCheck)
-      return this.$store.state.checkValid.flag
+    validInput() {
+      if(this.$store.state.points.pointList.length > 1){
+        const inputInCheck = [
+        this.speed,
+        this.feed,
+        this.ap,
+        this.apUp,
+        this.allowanceX,
+        this.allowanceZ,
+      ];
+      this.$store.commit('checkValid/validInput', inputInCheck);
+      return this.$store.state.checkValid.flag;
+      } else {
+        alert('Добавте хотя-бы две точки!')
+      }
     },
     createProgramm() {
       if (this.validInput()) {
         const points = this.$store.state.points.pointList;
         const listCut = {
           numTool: this.numTool,
-          speed: this.speed, 
-          feed: this.feed, 
-          ap: this.ap, 
-          apUp:this.apUp, 
-          allowanceX: this.allowanceX, 
-          allowanceZ: this.allowanceZ, 
-          points: points
-          };
+          speed: this.speed,
+          feed: this.feed,
+          ap: this.ap,
+          apUp: this.apUp,
+          allowanceX: this.allowanceX,
+          allowanceZ: this.allowanceZ,
+          points: points,
+        };
         this.$store.commit('g71/createProgG71', listCut);
       }
-      this.numTool = ''
-      this.speed = ''
-      this.feed = ''
-      this.ap = ''
-      this.apUp = ''
-      this.allowanceX = ''
-      this.allowanceZ = ''
+    },
+    cleanProgAndInput() {
+      this.$store.commit('g71/clearProg');
+      this.numTool = '';
+      this.speed = '';
+      this.feed = '';
+      this.ap = '';
+      this.apUp = '';
+      this.allowanceX = '';
+      this.allowanceZ = '';
     },
   },
 };
@@ -87,5 +130,16 @@ export default {
 .prog {
   display: flex;
   flex-direction: column;
+}
+
+.form__input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.input__field {
+  width: 100%;
 }
 </style>

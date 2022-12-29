@@ -5,6 +5,9 @@
       <input v-model="addY" type="text" placeholder="Введите Y" />
       <button type="submit">Добавить</button>
     </form>
+    <button class="btn__clean" @click="cleanAllPoint" type="submit">
+      Очистить
+    </button>
     <br />
     <div v-if="$store.state.points.showWin">
       <form class="form" @submit.prevent="removePoint">
@@ -12,6 +15,8 @@
         <input v-model="remY" type="text" :placeholder="fetchPoint.pointY" />
         <button type="submit">Изменить</button>
       </form>
+        Очистить
+      </button>
     </div>
   </div>
 </template>
@@ -27,16 +32,16 @@ export default {
     };
   },
   methods: {
-    validPoint(){
-      if (!this.$store.state.points.showWin){
-        const pointInCheck = [this.addX, this.addY]
-        this.$store.commit('checkValid/validInput', pointInCheck)
-        return this.$store.state.checkValid.flag
-        } else {
-          const pointInCheck = [this.remX, this.remY]
-          this.$store.commit('checkValid/validInput', pointInCheck)
-          return this.$store.state.checkValid.flag
-        }
+    validPoint() {
+      if (!this.$store.state.points.showWin) {
+        const pointInCheck = [this.addX, this.addY];
+        this.$store.commit('checkValid/validInput', pointInCheck);
+        return this.$store.state.checkValid.flag;
+      } else {
+        const pointInCheck = [this.remX, this.remY];
+        this.$store.commit('checkValid/validInput', pointInCheck);
+        return this.$store.state.checkValid.flag;
+      }
     },
     addPoints() {
       if (this.validPoint()) {
@@ -58,6 +63,11 @@ export default {
         this.remY = '';
       }
     },
+    cleanAllPoint(){
+        this.$store.commit('points/cleanPoint')
+        this.remX = ''
+        this.remY = ''
+    }
   },
   computed: {
     fetchPoint() {
@@ -72,5 +82,8 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+.btn__clean {
+  width: 100%
 }
 </style>

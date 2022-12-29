@@ -1,7 +1,7 @@
 <template>
   <div class="wrap__point">
-    <div v-if="listP.length > 0">
-      <div class='wrap__point_items' v-for="(point, index) in listP" :key="index">
+    <div v-if="listPoints.length > 0">
+      <div class='wrap__point_items' v-for="(point, index) in listPoints" :key="index">
         <span class='point'>X: {{ point.pointX }}; Y: {{ point.pointY }}</span> 
         <button @click='showRemoveWindow(index)' class='point__btn__remove'>Изменить</button>
         <button @click='delPoint(index)' class='point__btn__delete'>Удалить</button>
@@ -13,23 +13,17 @@
 
 <script>
 export default {
-  data(){
-    return {
-      listP: ''
-    }
-  },
-  mounted() {
-    this.fetchPoints()
-  },
   methods: {
-    fetchPoints() {
-      this.listP = this.$store.state.points.pointList;
-    },
     delPoint(i){
       this.$store.commit('points/deletePoint', i)
     },
     showRemoveWindow(i){
       this.$store.commit('points/showRemoveWindow', i)
+    }
+  },
+  computed: {
+    listPoints() {
+      return this.$store.state.points.pointList;
     }
   }
 };
