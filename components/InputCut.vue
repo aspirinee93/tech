@@ -36,14 +36,14 @@
         type="text"
         placeholder="Укажите величину отскока, мм"
       />
-      Припуск на диаметр, мм
+      Чистовой припуск на диаметр, мм
       <input
         v-model="allowanceX"
         class="input__field"
         type="text"
         placeholder="Укажите припуск на диаметр, мм"
       />
-      Припуск на длину, мм
+      Чистовой припуск на длину, мм
       <input
         v-model="allowanceZ"
         class="input__field"
