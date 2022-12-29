@@ -18,6 +18,7 @@ export const mutations = {
       index,
       pointX: state.pointList[index].pointX,
       pointY: state.pointList[index].pointY,
+      radius: state.pointList[index].radius,
     }
   },
   removePoint(state, point){

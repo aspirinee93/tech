@@ -2,7 +2,7 @@
   <div class="wrap__point">
     <div v-if="listPoints.length > 0">
       <div class='wrap__point_items' v-for="(point, index) in listPoints" :key="index">
-        <span class='point'>X: {{ point.pointX }}; Y: {{ point.pointY }}</span> 
+        <span class='point'>X: {{ point.pointX }}; Y: {{ point.pointY }}; R: {{ point.radius }}</span> 
         <button @click='showRemoveWindow(index)' class='point__btn__remove'>Изменить</button>
         <button @click='delPoint(index)' class='point__btn__delete'>Удалить</button>
       </div>
@@ -49,7 +49,7 @@ export default {
 }
 
 .point__btn__remove {
-    flex: 1;
+  flex: 1;
 }
 
 .point__btn__delete {
