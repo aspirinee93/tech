@@ -17,8 +17,7 @@
         <input v-model="remR" type="text" :placeholder="fetchPoint.radius" />
         <button type="submit">Изменить</button>
       </form>
-        Очистить
-      </button>
+      <button class="btn__clean" @click="closeWin" type="submit">Закрыть</button>
     </div>
   </div>
 </template>
@@ -100,7 +99,10 @@ export default {
       }
     },
     cleanAllPoint(){
-        this.$store.commit('points/cleanPoint')
+      this.$store.commit('points/cleanPoint')
+    },
+    closeWin() {
+      this.$store.commit('points/closeWin')
     }
   },
   computed: {

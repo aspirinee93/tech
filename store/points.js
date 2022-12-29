@@ -29,6 +29,9 @@ export const mutations = {
   },
   cleanPoint(state){
     state.pointList = []
+  },
+  closeWin(state){
+    state.showWin = false
   }
 }
 
