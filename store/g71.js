@@ -16,14 +16,14 @@ export const mutations = {
     state.prog += `<p>Z${objInfo.points[0].pointY+10} M8;</p>`
     state.prog += `<p>G01 Z${objInfo.points[0].pointY+2} F0.5;</p>`
     state.prog += `<p>G71 U${objInfo.ap} R${objInfo.apUp};</p>`
-    state.prog += `<p>G71 P1 Q1 U${objInfo.allowanceX} W${objInfo.allowanceZ} F${objInfo.feed};</p>`
+    state.prog += `<p>G71 P1 Q2 U${objInfo.allowanceX} W${objInfo.allowanceZ} F${objInfo.feed};</p>`
     for(let i = 0; i < objInfo.points.length; i++){
       if(i===0){
-        state.prog += `<p>P1 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+        state.prog += `<p>N1 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};`
       } else if (i === objInfo.points.length-1) {
-        state.prog += `<p>P2 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+        state.prog += `<p>N2 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};`
       } else {
-        state.prog += `<p>G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY}`
+        state.prog += `<p>G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};`
       }
     }
     state.prog += `<p>G00 Z150 M9;</p>`
