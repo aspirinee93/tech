@@ -100,13 +100,13 @@ export default {
       if (this.validInput()) {
         const points = this.$store.state.points.pointList;
         const listCut = {
-          numTool: this.numTool,
-          speed: this.speed,
-          feed: this.feed,
-          ap: this.ap,
-          apUp: this.apUp,
-          allowanceX: this.allowanceX,
-          allowanceZ: this.allowanceZ,
+          numTool: Math.ceil(Math.abs(Number(this.numTool.replace(',', '.')))),
+          speed: Math.abs(Number(this.speed.replace(',', '.'))),
+          feed: Math.abs(Number(this.feed.replace(',', '.'))),
+          ap: Math.abs(Number(this.ap.replace(',', '.'))),
+          apUp: Math.abs(Number(this.apUp.replace(',', '.'))),
+          allowanceX: Number(this.allowanceX.replace(',', '.')),
+          allowanceZ: Number(this.allowanceZ.replace(',', '.')),
           points: points,
         };
         this.$store.commit('g71/createProgG71', listCut);

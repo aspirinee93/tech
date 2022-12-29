@@ -5,7 +5,7 @@ export const state = () => ({
 export const mutations = {
   validInput(state, input){
     for(let i of input){
-      if (isNaN(Number(i)) || i === ''){
+      if (isNaN(Number(i.replace(',', '.'))) || i === ''){
         alert('Введите числа');
         state.flag = false
         return

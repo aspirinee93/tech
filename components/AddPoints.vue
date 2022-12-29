@@ -70,14 +70,14 @@ export default {
       if (this.validPoint()) {
         if(this.addR){
           this.$store.commit('points/addPoints', {
-            pointX: Number(this.addX),
-            pointY: Number(this.addY),
-            radius: Number(this.addR),
+            pointX: Number(this.addX.replace(',', '.')),
+            pointY: Number(this.addY.replace(',', '.')),
+            radius: Number(this.addR.replace(',', '.')),
         });
         } else {
           this.$store.commit('points/addPoints', {
-            pointX: Number(this.addX),
-            pointY: Number(this.addY),
+            pointX: Number(this.addX.replace(',', '.')),
+            pointY: Number(this.addY.replace(',', '.')),
             radius: 0,
         });
         }
@@ -89,9 +89,9 @@ export default {
     removePoint() {
       if (this.validPoint()) {
         this.$store.commit('points/removePoint', {
-          pointX: Number(this.remX),
-          pointY: Number(this.remY),
-          radius: Number(this.remR)
+          pointX: Number(this.remX.replace(',', '.')),
+          pointY: Number(this.remY.replace(',', '.')),
+          radius: Number(this.remR.replace(',', '.'))
         });
         this.remX = '';
         this.remY = '';
