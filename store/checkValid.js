@@ -13,5 +13,8 @@ export const mutations = {
         state.flag = true
       }
     }
-  }
+  },
+  // test(state, points){
+  //   alert(points)
+  // }
 }

@@ -52,22 +52,27 @@ export default {
         pointX: this.addX,
         pointY: this.addY,
         radius: this.addR,
+        addIndex: this.addIndex,
+        status: 'new'
       }
-      this.$store.commit('points/addNewPoint', data)
+      this.$store.dispatch('points/addPointAct', data)
     },
     addPointsByIndex(){
       const data = {
         pointX: this.addX,
         pointY: this.addY,
         radius: this.addR,
+        addIndex: this.addIndex,
+        status: 'new'
       }
-      this.$store.commit('points/addPointsByIndex', data)
+      this.$store.commit('points/addPointsByIndexAct', data)
     },
     removePoints(){
       const data = {
-        pointX: this.addX,
-        pointY: this.addY,
-        radius: this.addR,
+        pointX: this.remX,
+        pointY: this.remY,
+        radius: this.remR,
+        status: 'old'
       }
       this.$store.commit('points/removePoint', data)
     },
@@ -104,26 +109,26 @@ export default {
         }
       }
     },
-    addPoints() {
-      if (this.validPoint()) {
-        if(this.addR){
-          this.$store.commit('points/addPoints', {
-            pointX: Number(this.addX.replace(',', '.')),
-            pointY: Number(this.addY.replace(',', '.')),
-            radius: Number(this.addR.replace(',', '.')),
-        });
-        } else {
-          this.$store.commit('points/addPoints', {
-            pointX: Number(this.addX.replace(',', '.')),
-            pointY: Number(this.addY.replace(',', '.')),
-            radius: 0,
-        });
-        }
-        this.addX = '';
-        this.addY = '';
-        this.addR = '';
-      }
-    },
+    // addPoints() {
+    //   if (this.validPoint()) {
+    //     if(this.addR){
+    //       this.$store.commit('points/addPoints', {
+    //         pointX: Number(this.addX.replace(',', '.')),
+    //         pointY: Number(this.addY.replace(',', '.')),
+    //         radius: Number(this.addR.replace(',', '.')),
+    //     });
+    //     } else {
+    //       this.$store.commit('points/addPoints', {
+    //         pointX: Number(this.addX.replace(',', '.')),
+    //         pointY: Number(this.addY.replace(',', '.')),
+    //         radius: 0,
+    //     });
+    //     }
+    //     this.addX = '';
+    //     this.addY = '';
+    //     this.addR = '';
+    //   }
+    // },
     removePoint() {
       if (this.validPoint()) {
         this.$store.commit('points/removePoint', {
