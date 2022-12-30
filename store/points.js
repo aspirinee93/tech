@@ -59,10 +59,13 @@ export const actions = {
       status: point['status']
     };
     store.dispatch('checkValited', newPoint)
-    if (store.state.flag) {
-      store.commit('addPoints', newPoint);
-    } else {
-      alert('Введены невалидные данные');
+    if(store.state.flag){
+      if(store.state.pointList.length === 0 || newPoint.radius === ''){
+        newPoint.radius = 0
+        store.commit('addPoints', newPoint)
+      } else {
+        store.commit('addPoints', newPoint)
+      }
     }
   },
   checkValited(store, point) {
@@ -75,17 +78,24 @@ export const actions = {
             point.pointX === '' ||
             point.pointY === ''
             ){
-              alert('Введите цыфры')
               return
           } else {
             store.commit('flagTrue')
             return
           }
         } else {
-          if(isNaN(Number(point.pointX.replace(',', '.'))) || point.pointX === ''){
-
+          if(
+            isNaN(Number(point.pointX.replace(',', '.'))) || 
+            isNaN(Number(point.pointY.replace(',', '.'))) ||
+            isNaN(Number(point.radius.replace(',', '.'))) ||
+            point.pointX === '' ||
+            point.pointY === '' ||
+            point.radius === '' 
+            ){
+              return
           } else {
-
+            store.commit('flagTrue')
+            return
           }
         }
     }
