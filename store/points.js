@@ -69,11 +69,14 @@ export const actions = {
     switch (true){
       case point.status === 'new':
         if(point.radius === '' || store.state.pointList.length === 0){
-          if(isNaN(Number(point.pointX.replace(',', '.'))) || 
-            isNaN(Number(point.pointX.replace(',', '.'))) ||
-            point.pointX === ''){
-            alert('Введите цыфры')
-            return
+          if(
+            isNaN(Number(point.pointX.replace(',', '.'))) || 
+            isNaN(Number(point.pointY.replace(',', '.'))) ||
+            point.pointX === '' ||
+            point.pointY === ''
+            ){
+              alert('Введите цыфры')
+              return
           } else {
             store.commit('flagTrue')
             return
