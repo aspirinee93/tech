@@ -141,5 +141,6 @@ export default {
 
 .input__field {
   width: 100%;
+  margin-bottom: 3px;
 }
 </style>

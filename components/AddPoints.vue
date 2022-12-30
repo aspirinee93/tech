@@ -22,13 +22,13 @@
     <br />
     <div v-if="$store.state.points.showWinAddPointByIndex">
       <form class="form" @submit.prevent="addPointsByIndex">
-      <input v-model="addX" type="text" placeholder="Введите X" />
-      <input v-model="addY" type="text" placeholder="Введите Z" />
-      <input v-model="addR" type="text" placeholder="Введите R, если необходимо" />
-      <input v-model="addIndex" type="text" placeholder="Введите новый номер точки" />
-      <button type="submit">Добавить</button>
-    </form>
-      <button class="btn__clean" @click="closeWinAddPoint" type="submit">Закрыть</button>
+        <input v-model="addX" type="text" placeholder="Введите X" />
+        <input v-model="addY" type="text" placeholder="Введите Z" />
+        <input v-model="addR" type="text" placeholder="Введите R, если необходимо" />
+        <input v-model="addIndex" type="text" placeholder="Введите новый номер точки" />
+        <button type="submit">Добавить</button>
+      </form>
+      <button class="btn__clean" @click="closeWin" type="submit">Закрыть</button>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-    addPoints(){
+    addPoints() {
       const data = {
         pointX: this.addX,
         pointY: this.addY,
@@ -56,8 +56,11 @@ export default {
         status: 'new'
       }
       this.$store.dispatch('points/addPointAct', data)
+      this.addX = ''
+      this.addY = ''
+      this.addR = ''
     },
-    addPointsByIndex(){
+    addPointsByIndex() {
       const data = {
         pointX: this.addX,
         pointY: this.addY,
@@ -65,91 +68,26 @@ export default {
         addIndex: this.addIndex,
         status: 'new'
       }
-      this.$store.commit('points/addPointsByIndexAct', data)
+      this.$store.commit('points/addPointsByIndex', data)
     },
-    removePoints(){
+    removePoint() {
       const data = {
         pointX: this.remX,
         pointY: this.remY,
         radius: this.remR,
         status: 'old'
       }
-      this.$store.commit('points/removePoint', data)
+      this.$store.dispatch('points/removePointAct', data)
+      this.remX = ''
+      this.remY = ''
+      this.remR = ''
     },
-
-
-    validPoint() {
-      if(!this.$store.state.points.showWinUpdatePoint) {
-        if(this.addR){
-          if(this.$store.state.points.pointList.length === 0){
-            this.addR = 0
-            const pointInCheck = [this.addX, this.addY];
-            this.$store.commit('checkValid/validInput', pointInCheck);
-            return this.$store.state.checkValid.flag;
-            } else {
-              const pointInCheck = [this.addX, this.addY, this.addR];
-              this.$store.commit('checkValid/validInput', pointInCheck);
-              return this.$store.state.checkValid.flag;
-            }
-          } else {
-            const pointInCheck = [this.addX, this.addY];
-            this.$store.commit('checkValid/validInput', pointInCheck);
-            return this.$store.state.checkValid.flag;
-          }
-      } else {
-        if(this.$store.state.points.point.index === 0){
-          this.remR = 0
-          const pointInCheck = [this.remX, this.remY, this.remR];
-          this.$store.commit('checkValid/validInput', pointInCheck);
-          return this.$store.state.checkValid.flag;
-        } else {
-          const pointInCheck = [this.remX, this.remY, this.remR];
-          this.$store.commit('checkValid/validInput', pointInCheck);
-          return this.$store.state.checkValid.flag;
-        }
-      }
-    },
-    // addPoints() {
-    //   if (this.validPoint()) {
-    //     if(this.addR){
-    //       this.$store.commit('points/addPoints', {
-    //         pointX: Number(this.addX.replace(',', '.')),
-    //         pointY: Number(this.addY.replace(',', '.')),
-    //         radius: Number(this.addR.replace(',', '.')),
-    //     });
-    //     } else {
-    //       this.$store.commit('points/addPoints', {
-    //         pointX: Number(this.addX.replace(',', '.')),
-    //         pointY: Number(this.addY.replace(',', '.')),
-    //         radius: 0,
-    //     });
-    //     }
-    //     this.addX = '';
-    //     this.addY = '';
-    //     this.addR = '';
-    //   }
-    // },
-    removePoint() {
-      if (this.validPoint()) {
-        this.$store.commit('points/removePoint', {
-          pointX: Number(this.remX.replace(',', '.')),
-          pointY: Number(this.remY.replace(',', '.')),
-          radius: Number(this.remR.replace(',', '.'))
-        });
-        this.remX = '';
-        this.remY = '';
-        this.remR = '';
-      }
-    },
-    cleanAllPoint(){
+    cleanAllPoint() {
       this.$store.commit('points/cleanPoint')
     },
-    closeWinAddPoint() {
-      this.$store.commit('points/showWinUpdatePoint')
+    closeWin() {
+      this.$store.commit('points/closeWin')
     },
-    closeWinAddPointByIndex() {
-      this.$store.commit('points/showWinAddPointByIndex')
-    }
   },
   computed: {
     fetchPoint() {
@@ -165,7 +103,9 @@ export default {
   flex-direction: column;
   gap: 5px;
 }
+
 .btn__clean {
-  width: 100%
+  width: 100%;
+  margin-top: 5px;
 }
 </style>

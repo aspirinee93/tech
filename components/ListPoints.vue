@@ -1,8 +1,21 @@
 <template>
   <div class="wrap__point">
     <div v-if="listPoints.length > 0">
+
+      <button class="btn__point" @click="showWinAddPointByIndex">Вставить точку</button>
       <div class='wrap__point_items' v-for="(point, index) in listPoints" :key="index">
-        <span class='point'>X: {{ point.pointX }}; Z: {{ point.pointY }}; R: {{ point.radius }}</span> 
+
+        <div class="point" v-if="point.radius">
+          <div  class="point"> 
+            {{ index + 1 }} - X: {{ point.pointX }}; Z: {{ point.pointY }}; R: {{ point.radius }}
+          </div>
+        </div>
+        <div class="point" v-else>
+          <div  class="point"> 
+            {{ index + 1 }} - X: {{ point.pointX }}; Z: {{ point.pointY }};
+          </div>
+        </div>
+        
         <button @click='showRemoveWindow(index)' class='point__btn__remove'>Изменить</button>
         <button @click='delPoint(index)' class='point__btn__delete'>Удалить</button>
       </div>
@@ -19,7 +32,10 @@ export default {
     },
     showRemoveWindow(i){
       this.$store.commit('points/showRemoveWindow', i)
-    }
+    },
+    showWinAddPointByIndex(){
+      this.$store.commit('points/openWinAddPointByIndex')
+    },
   },
   computed: {
     listPoints() {
@@ -54,5 +70,9 @@ export default {
 
 .point__btn__delete {
   flex: 1;
+}
+.btn__point {
+  width: 100%;
+  margin-bottom: 5px;
 }
 </style>
