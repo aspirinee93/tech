@@ -4,9 +4,7 @@ export const state = () => ({
 
 export const mutations = {
   createProgG71(state, objInfo) {
-
     let flag = false;
-    
     state.prog = "";
     state.prog += "%";
     if (objInfo.numTool >= 10) {

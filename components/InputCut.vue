@@ -2,54 +2,19 @@
   <div>
     <form class="form__input" @submit.prevent="createProgramm">
       Номер инструмента
-      <input
-        v-model="numTool"
-        class="input__field"
-        type="text"
-        placeholder="Укажите номер инструмента"
-      />
+      <input v-model="numTool" class="input__field" type="text" placeholder="Укажите номер инструмента" />
       Скорость резания, мм/мин
-      <input
-        v-model="speed"
-        class="input__field"
-        type="text"
-        placeholder="Укажите скорость резания, мм/мин"
-      />
+      <input v-model="speed" class="input__field" type="text" placeholder="Укажите скорость резания, мм/мин" />
       Подача, мм/об
-      <input
-        v-model="feed"
-        class="input__field"
-        type="text"
-        placeholder="Укажите подачу, мм/об"
-      />
+      <input v-model="feed" class="input__field" type="text" placeholder="Укажите подачу, мм/об" />
       Глубина резания, мм
-      <input
-        v-model="ap"
-        class="input__field"
-        type="text"
-        placeholder="Укажите глубину резания, мм"
-      />
+      <input v-model="ap" class="input__field" type="text" placeholder="Укажите глубину резания, мм" />
       Величина отскока, мм
-      <input
-        v-model="apUp"
-        class="input__field"
-        type="text"
-        placeholder="Укажите величину отскока, мм"
-      />
+      <input v-model="apUp" class="input__field" type="text" placeholder="Укажите величину отскока, мм" />
       Чистовой припуск на диаметр, мм
-      <input
-        v-model="allowanceX"
-        class="input__field"
-        type="text"
-        placeholder="Укажите припуск на диаметр, мм"
-      />
+      <input v-model="allowanceX" class="input__field" type="text" placeholder="Укажите припуск на диаметр, мм" />
       Чистовой припуск на длину, мм
-      <input
-        v-model="allowanceZ"
-        class="input__field"
-        type="text"
-        placeholder="Укажите припуск на длину, мм"
-      />
+      <input v-model="allowanceZ" class="input__field" type="text" placeholder="Укажите припуск на длину, мм" />
 
       <div class="input__field" v-if="!$store.state.g71.prog">
         <button class="input__field" type="submit">Составить программу</button>
@@ -77,21 +42,22 @@ export default {
       apUp: '', //R
       allowanceX: '', //U припуск по X
       allowanceZ: '', //W припуск по Z
+      listInput: '',
     };
   },
   methods: {
     validInput() {
-      if(this.$store.state.points.pointList.length > 1){
-        const inputInCheck = [
-        this.speed,
-        this.feed,
-        this.ap,
-        this.apUp,
-        this.allowanceX,
-        this.allowanceZ,
-      ];
-      this.$store.commit('checkValid/validInput', inputInCheck);
-      return this.$store.state.checkValid.flag;
+      if (this.$store.state.points.pointList.length > 1) {
+        const listInput = [
+          this.speed,
+          this.feed,
+          this.ap,
+          this.apUp,
+          this.allowanceX,
+          this.allowanceZ,
+        ];
+        this.$store.commit('checkValid/validInput', listInput);
+        return this.$store.state.checkValid.flag;
       } else {
         alert('Добавте хотя-бы две точки!')
       }

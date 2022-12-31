@@ -14,7 +14,4 @@ export const mutations = {
       }
     }
   },
-  // test(state, points){
-  //   alert(points)
-  // }
 }
