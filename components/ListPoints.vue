@@ -17,6 +17,11 @@
         </div>
         
         <button @click='showRemoveWindow(index)' class='point__btn__remove'>Изменить</button>
+
+        <span v-if="index !== 0 && index !== listPoints.length-1 && point.radius === 0">
+          <button @click='openUpdateToRadiusWindow(index)' class='point__btn__remove'>Update to R</button>
+        </span>
+        
         <button @click='delPoint(index)' class='point__btn__delete'>Удалить</button>
       </div>
     </div>
@@ -35,6 +40,9 @@ export default {
     },
     showWinAddPointByIndex(){
       this.$store.commit('points/openWinAddPointByIndex')
+    },
+    openUpdateToRadiusWindow(i){
+      this.$store.commit('points/openUpdateToRadiusWindow', i)
     },
   },
   computed: {

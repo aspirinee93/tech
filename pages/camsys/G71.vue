@@ -23,6 +23,9 @@
           <div v-if="$store.state.points.showWinAddPointByIndex">
             <AddPointByIndex />
           </div>
+          <div v-if="$store.state.points.showUpdateToRadiusWindow">
+            <UpdateToRadius />
+          </div>
         </div>
       </div>
 
@@ -34,8 +37,10 @@
 </template>
 
 <script>
-export default {
+import UpdateToRadius from '../../components/UpdateToRadius.vue';
 
+export default {
+    components: { UpdateToRadius }
 }
 </script>
 

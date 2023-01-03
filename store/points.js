@@ -3,10 +3,14 @@ export const state = () => ({
   point: "",
   showWinUpdatePoint: false,
   showWinAddPointByIndex: false,
+  showUpdateToRadiusWindow: false,
   flag: false,
 });
 
 export const mutations = {
+  updatePointList(state, newListPoints) {
+    //
+  },
   addPoints(state, point) {
     state.pointList.push(point);
     state.flag = false;
@@ -18,8 +22,20 @@ export const mutations = {
     state.pointList.splice(index, 1);
     state.showWinUpdatePoint = false;
   },
+  openUpdateToRadiusWindow(state, index) {
+    state.point = "";
+    state.showWinUpdatePoint = false;
+    state.showUpdateToRadiusWindow = true;
+    state.point = {
+      index,
+      pointX: state.pointList[index].pointX,
+      pointY: state.pointList[index].pointY,
+      radius: state.pointList[index].radius,
+    };
+  },
   showRemoveWindow(state, index) {
     state.showWinAddPointByIndex = false;
+    state.showUpdateToRadiusWindow = false;
     state.showWinUpdatePoint = true;
     state.point = {
       index,
@@ -30,6 +46,7 @@ export const mutations = {
   },
   openWinAddPointByIndex(state) {
     state.showWinUpdatePoint = false;
+    state.showUpdateToRadiusWindow = false;
     state.showWinAddPointByIndex = true;
   },
   removePoint(state, point) {
@@ -45,6 +62,7 @@ export const mutations = {
   closeWin(state) {
     state.showWinUpdatePoint = false;
     state.showWinAddPointByIndex = false;
+    state.showUpdateToRadiusWindow = false;
     state.point = "";
   },
   flagTrue(state) {
@@ -56,6 +74,9 @@ export const mutations = {
 };
 
 export const actions = {
+  updatePointListAct(store, data) {
+    const oldListPoints = store.state.pointList;
+  },
   addPointAct(store, point) {
     const newPoint = {
       pointX: point["pointX"],
@@ -79,26 +100,37 @@ export const actions = {
     }
   },
   addPointByIndexAct(store, data) {
-    if (Number(data.addIndex) <= 0) {
-      data.addIndex = 1;
-    } else {
-      data.addIndex = Math.ceil(Math.abs(Number(data.addIndex)));
-    }
-    if (isNaN(data.addIndex) || data.addIndex === "") {
+    if (isNaN(Number(data.addIndex)) || data.addIndex === "") {
       alert("Введите корректный индекс");
-    } else if (data.addIndex > store.state.pointList.length) {
-      store.dispatch("addPointAct", data);
-    } else if (data.addIndex == 1) {
-      data.radius = 0;
-      store.dispatch("checkValitedPoint", data);
-      if (store.state.flag) {
-        store.commit("addPointsByIndex", data);
-      }
     } else {
-      store.dispatch("checkValitedPointWithRadius", data);
-      if (store.state.flag) {
-        store.commit("addPointsByIndex", data);
-      }
+      Number(data.addIndex) <= 0
+        ? (data.addIndex = 1)
+        : (data.addIndex = Math.ceil(Math.abs(Number(data.addIndex))));
+    }
+    switch (true) {
+      case data.addIndex > store.state.pointList.length:
+        store.dispatch("addPointAct", data);
+        break;
+      case data.addIndex === 1:
+        data.radius = 0;
+        store.dispatch("checkValitedPoint", data);
+        if (store.state.flag) {
+          store.commit("addPointsByIndex", data);
+        }
+        break;
+      case data.addIndex <= store.state.pointList.length:
+        if (data.radius === "") {
+          data.radius = 0;
+          store.dispatch("checkValitedPoint", data);
+          if (store.state.flag) {
+            store.commit("addPointsByIndex", data);
+          }
+        } else {
+          store.dispatch("checkValitedPointWithRadius", data);
+          if (store.state.flag) {
+            store.commit("addPointsByIndex", data);
+          }
+        }
     }
   },
   removePointAct(store, point) {
@@ -160,6 +192,7 @@ export const actions = {
     }
   },
   checkValitedPointWithRadius(store, data) {
+    alert(JSON.stringify(data));
     if (
       isNaN(Number(data.pointX.replace(",", "."))) ||
       isNaN(Number(data.pointY.replace(",", "."))) ||
