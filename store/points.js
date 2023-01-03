@@ -12,13 +12,14 @@ export const mutations = {
     state.flag = false;
   },
   addPointsByIndex(state, pointWithIndex) {
-    state.pointList.splice(pointWithIndex.index, 0, pointWithIndex.point);
+    state.pointList.splice(pointWithIndex.addIndex - 1, 0, pointWithIndex);
   },
   deletePoint(state, index) {
     state.pointList.splice(index, 1);
     state.showWinUpdatePoint = false;
   },
   showRemoveWindow(state, index) {
+    state.showWinAddPointByIndex = false;
     state.showWinUpdatePoint = true;
     state.point = {
       index,
@@ -28,6 +29,7 @@ export const mutations = {
     };
   },
   openWinAddPointByIndex(state) {
+    state.showWinUpdatePoint = false;
     state.showWinAddPointByIndex = true;
   },
   removePoint(state, point) {
@@ -73,6 +75,29 @@ export const actions = {
           (newPoint.pointY = Number(newPoint.pointY.replace(",", "."))),
           (newPoint.radius = Number(newPoint.radius.replace(",", ".")));
         store.commit("addPoints", newPoint);
+      }
+    }
+  },
+  addPointByIndexAct(store, data) {
+    if (Number(data.addIndex) <= 0) {
+      data.addIndex = 1;
+    } else {
+      data.addIndex = Math.ceil(Math.abs(Number(data.addIndex)));
+    }
+    if (isNaN(data.addIndex) || data.addIndex === "") {
+      alert("Введите корректный индекс");
+    } else if (data.addIndex > store.state.pointList.length) {
+      store.dispatch("addPointAct", data);
+    } else if (data.addIndex == 1) {
+      data.radius = 0;
+      store.dispatch("checkValitedPoint", data);
+      if (store.state.flag) {
+        store.commit("addPointsByIndex", data);
+      }
+    } else {
+      store.dispatch("checkValitedPointWithRadius", data);
+      if (store.state.flag) {
+        store.commit("addPointsByIndex", data);
       }
     }
   },

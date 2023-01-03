@@ -1,0 +1,57 @@
+<template>
+  <div>
+      <form class="form" @submit.prevent="addPointByIndex">
+        <input v-model="addX" type="text" placeholder="Введите X" />
+        <input v-model="addY" type="text" placeholder="Введите Z" />
+        <input v-model="addR" type="text" placeholder="Введите R, если необходимо" />
+        <input v-model="addIndex" type="text" placeholder="Введите новый номер точки" />
+        <button type="submit">Добавить</button>
+      </form>
+      <button class="btn__clean" @click="closeWin" type="submit">Закрыть</button>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      addX: '',
+      addY: '',
+      addR: '',
+      addIndex: '',
+    };
+  },
+  methods: {
+    addPointByIndex() {
+      const data = {
+        pointX: this.addX,
+        pointY: this.addY,
+        radius: this.addR,
+        addIndex: this.addIndex,
+        status: 'new'
+      }
+      this.$store.dispatch('points/addPointByIndexAct', data)
+      this.addX = ''
+      this.addY = ''
+      this.addR = ''
+      this.addIndex = ''
+    },
+    closeWin() {
+      this.$store.commit('points/closeWin')
+    },
+  },
+};
+</script>
+
+<style>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btn__clean {
+  width: 100%;
+  margin-top: 5px;
+}
+</style>
