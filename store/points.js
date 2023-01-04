@@ -8,8 +8,9 @@ export const state = () => ({
 });
 
 export const mutations = {
-  updatePointList(state, newListPoints) {
-    //
+  updatePointToRadius(state, newListPoints) {
+    state.pointList = newListPoints;
+    state.showUpdateToRadiusWindow = false;
   },
   addPoints(state, point) {
     state.pointList.push(point);
@@ -34,6 +35,7 @@ export const mutations = {
     };
   },
   showRemoveWindow(state, index) {
+    state.point = "";
     state.showWinAddPointByIndex = false;
     state.showUpdateToRadiusWindow = false;
     state.showWinUpdatePoint = true;
@@ -74,8 +76,116 @@ export const mutations = {
 };
 
 export const actions = {
-  updatePointListAct(store, data) {
-    const oldListPoints = store.state.pointList;
+  updatePointToRadiusAct(store, radius) {
+    const newLP = [...store.state.pointList];
+    const INDX = store.state.point.index;
+    const R = radius;
+    const PI = Math.PI;
+    const KINUNGLE = ((180 / PI) * 100) / 100;
+    const KOUTUNGLE = ((PI / 180) * 100) / 100;
+
+    const point1 = {
+      pointX: Math.ceil((newLP[INDX - 1].pointX/2)*100)/100,
+      pointY: newLP[INDX - 1].pointY,
+      radius: newLP[INDX - 1].radius,
+    };
+    const point2 = {
+      pointX: Math.ceil((newLP[INDX].pointX/2)*100)/100,
+      pointY: newLP[INDX].pointY,
+      radius: newLP[INDX].radius,
+    };
+    const point3 = {
+      pointX: Math.ceil((newLP[INDX + 1].pointX/2)*100)/100,
+      pointY: newLP[INDX + 1].pointY,
+      radius: newLP[INDX + 1].radius,
+    };
+
+    let deltaX1 = Math.ceil(Math.abs(point2.pointX - point1.pointX)*100)/100;
+    //console.log(`deltaX1 - ${deltaX1}`)
+    let deltaZ1 = Math.ceil(Math.abs(point2.pointY - point1.pointY)*100)/100;
+    //console.log(`deltaZ1 - ${deltaZ1}`)
+    let deltaX2 = Math.ceil(Math.abs(point3.pointX - point2.pointX)*100)/100;
+    //console.log(`deltaX2 - ${deltaX2}`)
+    let deltaZ2 = Math.ceil(Math.abs(point3.pointY - point2.pointY)*100)/100;
+    //console.log(`deltaZ2 - ${deltaZ2}`)
+
+    let alfaX;
+    let alfaZ;
+    if (deltaX1 === 0) {
+      alfaX = 0;
+      //console.log(`alfaX - ${alfaX}`)
+    } else if (deltaZ1 === 0) {
+      alfaX = 90;
+      //console.log(`alfaX - ${alfaX}`)
+    } else {
+      alfaX = Math.ceil((Math.atan(deltaX1 / deltaZ1) * KINUNGLE)*100)/100;
+      //console.log(`alfaX - ${alfaX}`)
+    }
+    if (deltaZ2 === 0) {
+      alfaZ = 0;
+      //console.log(`alfaZ - ${alfaZ}`)
+    } else if (deltaX2 === 0) {
+      alfaZ = 90;
+      //console.log(`alfaZ - ${alfaZ}`)
+    } else {
+      alfaZ = Math.ceil((Math.atan(deltaZ2 / deltaX2) * KINUNGLE)*100)/100;
+      //console.log(`alfaZ - ${alfaZ}`)
+    }
+
+    let DIRRAD;
+    let beta = alfaX + alfaZ + 90;
+    //console.log(`beta - ${beta}`)
+    if (beta > 180) {
+      DIRRAD = -1;
+      //console.log(`DIRRAD - ${DIRRAD}`)
+    } else {
+      DIRRAD = 1;
+      //console.log(`DIRRAD - ${DIRRAD}`)
+    }
+
+    let zeta = Math.abs(beta/2 - alfaX - alfaZ)
+    //console.log(`zeta - ${zeta}`)
+    let tanZeta = Math.floor((Math.tan(zeta * KOUTUNGLE))*10000)/10000
+    //console.log(`tanZeta - ${tanZeta}`)
+    let sinX = Math.floor((Math.sin(alfaX * KOUTUNGLE))*10000)/10000
+    //console.log(`sinX - ${sinX}`)
+    let cosX = Math.floor((Math.cos(alfaX * KOUTUNGLE))*10000)/10000
+    //console.log(`cosX - ${cosX}`)
+    let cosZ = Math.floor((Math.cos(alfaZ * KOUTUNGLE))*10000)/10000
+    //console.log(`cosZ - ${cosZ}`)
+    let sinZ = Math.floor((Math.sin(alfaZ * KOUTUNGLE))*10000)/10000
+    //console.log(`sinZ - ${sinZ}`)
+
+    let newDeltaZ1 = Math.floor(R*tanZeta*cosX*100)/100
+    //console.log(`newDeltaZ1 - ${newDeltaZ1}`)
+    let newDeltaX1 = Math.floor(R*tanZeta*sinX*100)/100
+    //console.log(`newDeltaX1 - ${newDeltaX1}`)
+    let newDeltaX2 = Math.floor(R*tanZeta*cosZ*100)/100
+    //console.log(`newDeltaX2 - ${newDeltaX2}`)
+    let newDeltaZ2 = Math.floor(R*tanZeta*sinZ*100)/100
+    //console.log(`newDeltaZ2 - ${newDeltaZ2}`)
+
+    let newPointX1 = Math.ceil((point2.pointX-newDeltaX1)*100)/100
+    //console.log(`newPointX1 - ${newPointX1}`)
+    let newPointZ1 = Math.ceil((point2.pointY+newDeltaZ1)*100)/100
+    //console.log(`newPointZ1 - ${newPointZ1}`)
+    let newPointX2 = Math.ceil((point2.pointX+newDeltaX2)*100)/100
+    //console.log(`${point2.pointX} + ${newDeltaX2} = newPointX2 - ${newPointX2}`)
+    let newPointZ2 = Math.ceil((point2.pointY-newDeltaZ2)*100)/100
+    //console.log(`newPointZ2 - ${newPointZ2}`)
+
+    newLP.splice(INDX, 1, {
+      pointX: newPointX1*2, 
+      pointY: newPointZ1,
+      radius: 0
+    })
+    newLP.splice(INDX+1, 0, {
+      pointX: newPointX2*2, 
+      pointY: newPointZ2,
+      radius: R * DIRRAD
+    })
+
+    store.commit("updatePointToRadius", newLP);
   },
   addPointAct(store, point) {
     const newPoint = {

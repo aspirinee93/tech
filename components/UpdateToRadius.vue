@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form class="form" @submit.prevent="">
+    <form class="form" @submit.prevent="updatePointToRadius">
       <input v-model="radius" type="text" placeholder="Введите радиус" />
       <button type="submit">Обновить</button>
     </form>
@@ -16,6 +16,10 @@ export default {
     };
   },
   methods: {
+    updatePointToRadius() {
+      this.$store.dispatch('points/updatePointToRadiusAct', this.radius)
+      this.radius = ''
+    },
     closeWin() {
       this.$store.commit('points/closeWin')
     },
