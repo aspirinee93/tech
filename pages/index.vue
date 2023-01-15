@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <h1>
       Главная
     </h1>
@@ -7,11 +7,11 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
-<style>
-
+<style scoped>
+.wrapper {
+  margin: 10px,
+}
 </style>

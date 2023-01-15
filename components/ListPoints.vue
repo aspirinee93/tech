@@ -7,12 +7,12 @@
 
         <div class="point" v-if="point.radius">
           <div  class="point"> 
-            {{ index + 1 }} - X: {{ point.pointX }}; Z: {{ point.pointY }}; R: {{ point.radius }}
+            {{ index + 1 }} - X: {{ point.y }}; Z: {{ point.x }}; R: {{ point.radius }}
           </div>
         </div>
         <div class="point" v-else>
           <div  class="point"> 
-            {{ index + 1 }} - X: {{ point.pointX }}; Z: {{ point.pointY }};
+            {{ index + 1 }} - X: {{ point.y }}; Z: {{ point.x }};
           </div>
         </div>
         

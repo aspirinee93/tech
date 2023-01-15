@@ -1,8 +1,8 @@
 <template>
   <div>
       <form class="form" @submit.prevent="removePoint">
-        <input v-model="remX" type="text" :placeholder="$store.state.points.point.pointX" />
-        <input v-model="remY" type="text" :placeholder="$store.state.points.point.pointY" />
+        <input v-model="remX" type="text" :placeholder="$store.state.points.point.y" />
+        <input v-model="remY" type="text" :placeholder="$store.state.points.point.x" />
         <input v-model="remR" type="text" :placeholder="$store.state.points.point.radius" />
         <button type="submit">Изменить</button>
       </form>
@@ -22,8 +22,8 @@ export default {
   methods: {
     removePoint() {
       const data = {
-        pointX: this.remX,
-        pointY: this.remY,
+        y: this.remX,
+        x: this.remY,
         radius: this.remR,
         status: 'old'
       }

@@ -25,35 +25,35 @@ export const mutations = {
     for (let i = 0; i < objInfo.points.length; i++) {
       if (i === 0) {
         flag = true;
-        state.prog += `<div>N1 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
+        state.prog += `<div>N1 G01 X${objInfo.points[i].y} Z${objInfo.points[i].x};</div>`;
       } else if (i === objInfo.points.length - 1) {
         if (objInfo.points[i].radius > 0) {
           flag = false;
-          state.prog += `<div>N2 G02 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
+          state.prog += `<div>N2 G02 X${objInfo.points[i].y} Z${objInfo.points[i].x} R${objInfo.points[i].radius};</div>`;
         } else if (objInfo.points[i].radius < 0) {
           flag = false;
-          state.prog += `<div>N2 G03 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
+          state.prog += `<div>N2 G03 X${objInfo.points[i].y} Z${objInfo.points[i].x} R${objInfo.points[i].radius};</div>`;
         } else {
           if (flag) {
-            state.prog += `<div>N2 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
+            state.prog += `<div>N2 X${objInfo.points[i].y} Z${objInfo.points[i].x};</div>`;
           } else {
-            state.prog += `<div>N2 G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
+            state.prog += `<div>N2 G01 X${objInfo.points[i].y} Z${objInfo.points[i].x};</div>`;
           }
         }
       } else if (objInfo.points[i].radius > 0) {
         flag = false;
-        state.prog += `<div>G02 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY} R${objInfo.points[i].radius};</div>`;
+        state.prog += `<div>G02 X${objInfo.points[i].y} Z${objInfo.points[i].x} R${objInfo.points[i].radius};</div>`;
       } else if (objInfo.points[i].radius < 0) {
         flag = false;
-        state.prog += `<div>G03 X${objInfo.points[i].pointX} Z${
-          objInfo.points[i].pointY
+        state.prog += `<div>G03 X${objInfo.points[i].y} Z${
+          objInfo.points[i].x
         } R${objInfo.points[i].radius * -1};</div>`;
       } else {
         if (flag) {
-          state.prog += `<div>X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
+          state.prog += `<div>X${objInfo.points[i].y} Z${objInfo.points[i].x};</div>`;
         } else {
           flag = true;
-          state.prog += `<div>G01 X${objInfo.points[i].pointX} Z${objInfo.points[i].pointY};</div>`;
+          state.prog += `<div>G01 X${objInfo.points[i].y} Z${objInfo.points[i].x};</div>`;
         }
       }
     }

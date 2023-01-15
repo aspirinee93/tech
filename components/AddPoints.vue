@@ -25,8 +25,8 @@ export default {
   methods: {
     addPoints() {
       const data = {
-        pointX: this.addX,
-        pointY: this.addY,
+        y: this.addX,
+        x: this.addY,
         radius: this.addR,
         addIndex: this.addIndex,
         status: 'new'

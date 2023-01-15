@@ -7,7 +7,7 @@
     </div>
 
     <div class='app__graf'>
-      graf
+      <MyChartsTurningCharts/>
     </div>
 
     <div class='app__point'>
@@ -37,11 +37,6 @@
 </template>
 
 <script>
-import UpdateToRadius from '../../components/UpdateToRadius.vue';
-
-export default {
-    components: { UpdateToRadius }
-}
 </script>
 
 <style>

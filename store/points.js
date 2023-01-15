@@ -29,8 +29,8 @@ export const mutations = {
     state.showUpdateToRadiusWindow = true;
     state.point = {
       index,
-      pointX: state.pointList[index].pointX,
-      pointY: state.pointList[index].pointY,
+      y: state.pointList[index].y,
+      x: state.pointList[index].x,
       radius: state.pointList[index].radius,
     };
   },
@@ -41,8 +41,8 @@ export const mutations = {
     state.showWinUpdatePoint = true;
     state.point = {
       index,
-      pointX: state.pointList[index].pointX,
-      pointY: state.pointList[index].pointY,
+      y: state.pointList[index].y,
+      x: state.pointList[index].x,
       radius: state.pointList[index].radius,
     };
   },
@@ -85,103 +85,103 @@ export const actions = {
     const KOUTUNGLE = ((PI / 180) * 100) / 100;
 
     const point1 = {
-      pointX: Math.ceil((newLP[INDX - 1].pointX/2)*100)/100,
-      pointY: newLP[INDX - 1].pointY,
+      y: Math.ceil((newLP[INDX - 1].y/2)*100)/100,
+      x: newLP[INDX - 1].x,
       radius: newLP[INDX - 1].radius,
     };
     const point2 = {
-      pointX: Math.ceil((newLP[INDX].pointX/2)*100)/100,
-      pointY: newLP[INDX].pointY,
+      y: Math.ceil((newLP[INDX].y/2)*100)/100,
+      x: newLP[INDX].x,
       radius: newLP[INDX].radius,
     };
     const point3 = {
-      pointX: Math.ceil((newLP[INDX + 1].pointX/2)*100)/100,
-      pointY: newLP[INDX + 1].pointY,
+      y: Math.ceil((newLP[INDX + 1].y/2)*100)/100,
+      x: newLP[INDX + 1].x,
       radius: newLP[INDX + 1].radius,
     };
 
-    let deltaX1 = Math.ceil(Math.abs(point2.pointX - point1.pointX)*100)/100;
-    //console.log(`deltaX1 - ${deltaX1}`)
-    let deltaZ1 = Math.ceil(Math.abs(point2.pointY - point1.pointY)*100)/100;
-    //console.log(`deltaZ1 - ${deltaZ1}`)
-    let deltaX2 = Math.ceil(Math.abs(point3.pointX - point2.pointX)*100)/100;
-    //console.log(`deltaX2 - ${deltaX2}`)
-    let deltaZ2 = Math.ceil(Math.abs(point3.pointY - point2.pointY)*100)/100;
-    //console.log(`deltaZ2 - ${deltaZ2}`)
+    let deltaX1 = Math.ceil(Math.abs(point2.y - point1.y)*100)/100;
+    console.log(`deltaX1 - ${deltaX1}`)
+    let deltaZ1 = Math.ceil(Math.abs(point2.x - point1.x)*100)/100;
+    console.log(`deltaZ1 - ${deltaZ1}`)
+    let deltaX2 = Math.ceil(Math.abs(point3.y - point2.y)*100)/100;
+    console.log(`deltaX2 - ${deltaX2}`)
+    let deltaZ2 = Math.ceil(Math.abs(point3.x - point2.x)*100)/100;
+    console.log(`deltaZ2 - ${deltaZ2}`)
 
     let alfaX;
     let alfaZ;
     if (deltaX1 === 0) {
       alfaX = 0;
-      //console.log(`alfaX - ${alfaX}`)
+      console.log(`alfaX - ${alfaX}`)
     } else if (deltaZ1 === 0) {
       alfaX = 90;
-      //console.log(`alfaX - ${alfaX}`)
+      console.log(`alfaX - ${alfaX}`)
     } else {
       alfaX = Math.ceil((Math.atan(deltaX1 / deltaZ1) * KINUNGLE)*100)/100;
-      //console.log(`alfaX - ${alfaX}`)
+      console.log(`alfaX - ${alfaX}`)
     }
     if (deltaZ2 === 0) {
       alfaZ = 0;
-      //console.log(`alfaZ - ${alfaZ}`)
+      console.log(`alfaZ - ${alfaZ}`)
     } else if (deltaX2 === 0) {
       alfaZ = 90;
-      //console.log(`alfaZ - ${alfaZ}`)
+      console.log(`alfaZ - ${alfaZ}`)
     } else {
       alfaZ = Math.ceil((Math.atan(deltaZ2 / deltaX2) * KINUNGLE)*100)/100;
-      //console.log(`alfaZ - ${alfaZ}`)
+      console.log(`alfaZ - ${alfaZ}`)
     }
 
     let DIRRAD;
     let beta = alfaX + alfaZ + 90;
-    //console.log(`beta - ${beta}`)
+    console.log(`beta - ${beta}`)
     if (beta > 180) {
       DIRRAD = -1;
-      //console.log(`DIRRAD - ${DIRRAD}`)
+      console.log(`DIRRAD - ${DIRRAD}`)
     } else {
       DIRRAD = 1;
-      //console.log(`DIRRAD - ${DIRRAD}`)
+      console.log(`DIRRAD - ${DIRRAD}`)
     }
 
     let zeta = Math.abs(beta/2 - alfaX - alfaZ)
-    //console.log(`zeta - ${zeta}`)
-    let tanZeta = Math.floor((Math.tan(zeta * KOUTUNGLE))*10000)/10000
-    //console.log(`tanZeta - ${tanZeta}`)
+    console.log(`zeta - ${zeta}`)
+    let tanZeta = Math.ceil((Math.tan(zeta * KOUTUNGLE))*10000)/10000
+    console.log(`tanZeta - ${tanZeta}`)
     let sinX = Math.floor((Math.sin(alfaX * KOUTUNGLE))*10000)/10000
-    //console.log(`sinX - ${sinX}`)
+    console.log(`sinX - ${sinX}`)
     let cosX = Math.floor((Math.cos(alfaX * KOUTUNGLE))*10000)/10000
-    //console.log(`cosX - ${cosX}`)
+    console.log(`cosX - ${cosX}`)
     let cosZ = Math.floor((Math.cos(alfaZ * KOUTUNGLE))*10000)/10000
-    //console.log(`cosZ - ${cosZ}`)
+    console.log(`cosZ - ${cosZ}`)
     let sinZ = Math.floor((Math.sin(alfaZ * KOUTUNGLE))*10000)/10000
-    //console.log(`sinZ - ${sinZ}`)
+    console.log(`sinZ - ${sinZ}`)
 
     let newDeltaZ1 = Math.floor(R*tanZeta*cosX*100)/100
-    //console.log(`newDeltaZ1 - ${newDeltaZ1}`)
+    console.log(`newDeltaZ1 - ${newDeltaZ1}`)
     let newDeltaX1 = Math.floor(R*tanZeta*sinX*100)/100
-    //console.log(`newDeltaX1 - ${newDeltaX1}`)
+    console.log(`newDeltaX1 - ${newDeltaX1}`)
     let newDeltaX2 = Math.floor(R*tanZeta*cosZ*100)/100
-    //console.log(`newDeltaX2 - ${newDeltaX2}`)
+    console.log(`newDeltaX2 - ${newDeltaX2}`)
     let newDeltaZ2 = Math.floor(R*tanZeta*sinZ*100)/100
-    //console.log(`newDeltaZ2 - ${newDeltaZ2}`)
+    console.log(`newDeltaZ2 - ${newDeltaZ2}`)
 
-    let newPointX1 = Math.ceil((point2.pointX-newDeltaX1)*100)/100
-    //console.log(`newPointX1 - ${newPointX1}`)
-    let newPointZ1 = Math.ceil((point2.pointY+newDeltaZ1)*100)/100
-    //console.log(`newPointZ1 - ${newPointZ1}`)
-    let newPointX2 = Math.ceil((point2.pointX+newDeltaX2)*100)/100
-    //console.log(`${point2.pointX} + ${newDeltaX2} = newPointX2 - ${newPointX2}`)
-    let newPointZ2 = Math.ceil((point2.pointY-newDeltaZ2)*100)/100
-    //console.log(`newPointZ2 - ${newPointZ2}`)
+    let newPointX1 = Math.ceil((point2.y-newDeltaX1)*100)/100
+    console.log(`newPointX1 - ${newPointX1}`)
+    let newPointZ1 = Math.ceil((point2.x+newDeltaZ1)*100)/100
+    console.log(`newPointZ1 - ${newPointZ1}`)
+    let newPointX2 = Math.ceil((point2.y+newDeltaX2)*100)/100
+    console.log(`${point2.pointX} + ${newDeltaX2} = newPointX2 - ${newPointX2}`)
+    let newPointZ2 = Math.ceil((point2.x-newDeltaZ2)*100)/100
+    console.log(`newPointZ2 - ${newPointZ2}`)
 
     newLP.splice(INDX, 1, {
-      pointX: newPointX1*2, 
-      pointY: newPointZ1,
+      y: newPointX1*2, 
+      x: newPointZ1,
       radius: 0
     })
     newLP.splice(INDX+1, 0, {
-      pointX: newPointX2*2, 
-      pointY: newPointZ2,
+      y: newPointX2*2, 
+      x: newPointZ2,
       radius: R * DIRRAD
     })
 
@@ -189,21 +189,21 @@ export const actions = {
   },
   addPointAct(store, point) {
     const newPoint = {
-      pointX: point["pointX"],
-      pointY: point["pointY"],
+      y: point["y"],
+      x: point["x"],
       radius: point["radius"],
       status: point["status"],
     };
     store.dispatch("checkValited", newPoint);
     if (store.state.flag) {
       if (store.state.pointList.length === 0 || newPoint.radius === "") {
-        (newPoint.pointX = Number(newPoint.pointX.replace(",", "."))),
-          (newPoint.pointY = Number(newPoint.pointY.replace(",", "."))),
+        (newPoint.y = Number(newPoint.y.replace(",", "."))),
+          (newPoint.x = Number(newPoint.x.replace(",", "."))),
           (newPoint.radius = 0);
         store.commit("addPoints", newPoint);
       } else {
-        (newPoint.pointX = Number(newPoint.pointX.replace(",", "."))),
-          (newPoint.pointY = Number(newPoint.pointY.replace(",", "."))),
+        (newPoint.y = Number(newPoint.y.replace(",", "."))),
+          (newPoint.x = Number(newPoint.x.replace(",", "."))),
           (newPoint.radius = Number(newPoint.radius.replace(",", ".")));
         store.commit("addPoints", newPoint);
       }
@@ -245,8 +245,8 @@ export const actions = {
   },
   removePointAct(store, point) {
     const newPoint = {
-      pointX: point["pointX"],
-      pointY: point["pointY"],
+      y: point["y"],
+      x: point["x"],
       radius: point["radius"],
       status: point["status"],
     };
@@ -257,13 +257,13 @@ export const actions = {
         newPoint.radius === "" ||
         store.state.point.index === 0
       ) {
-        (newPoint.pointX = Number(newPoint.pointX.replace(",", "."))),
-          (newPoint.pointY = Number(newPoint.pointY.replace(",", "."))),
+        (newPoint.y = Number(newPoint.y.replace(",", "."))),
+          (newPoint.x = Number(newPoint.x.replace(",", "."))),
           (newPoint.radius = 0);
         store.commit("removePoint", newPoint);
       } else {
-        (newPoint.pointX = Number(newPoint.pointX.replace(",", "."))),
-          (newPoint.pointY = Number(newPoint.pointY.replace(",", "."))),
+        (newPoint.y = Number(newPoint.y.replace(",", "."))),
+          (newPoint.x = Number(newPoint.x.replace(",", "."))),
           (newPoint.radius = Number(newPoint.radius.replace(",", ".")));
         store.commit("removePoint", newPoint);
       }
@@ -288,10 +288,10 @@ export const actions = {
   },
   checkValitedPoint(store, data) {
     if (
-      isNaN(Number(data.pointX.replace(",", "."))) ||
-      isNaN(Number(data.pointY.replace(",", "."))) ||
-      data.pointX === "" ||
-      data.pointY === ""
+      isNaN(Number(data.y.replace(",", "."))) ||
+      isNaN(Number(data.x.replace(",", "."))) ||
+      data.y === "" ||
+      data.x === ""
     ) {
       alert("Введите цифры");
       store.commit("flagFalse");
@@ -302,13 +302,12 @@ export const actions = {
     }
   },
   checkValitedPointWithRadius(store, data) {
-    alert(JSON.stringify(data));
     if (
-      isNaN(Number(data.pointX.replace(",", "."))) ||
-      isNaN(Number(data.pointY.replace(",", "."))) ||
+      isNaN(Number(data.y.replace(",", "."))) ||
+      isNaN(Number(data.x.replace(",", "."))) ||
       isNaN(Number(data.radius.replace(",", "."))) ||
-      data.pointX === "" ||
-      data.pointY === "" ||
+      data.y === "" ||
+      data.x === "" ||
       data.radius === ""
     ) {
       alert("Введите цифры");
@@ -319,4 +318,9 @@ export const actions = {
       return;
     }
   },
+  updateListPointsChart(store){
+    store.state.pointChart = store.state.pointList.map(point => {
+      return {x: point.pointY, y: point.pointX}
+    })
+  }
 };
