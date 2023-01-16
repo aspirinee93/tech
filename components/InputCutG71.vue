@@ -28,6 +28,11 @@
         Очистить
       </button>
     </div>
+    <div>
+      <button class="input__field" @click="openG70Window" type="submit">
+        Добавить чистовую обработку
+      </button>
+    </div>
   </div>
 </template>
 
@@ -88,6 +93,9 @@ export default {
       this.allowanceX = '';
       this.allowanceZ = '';
     },
+    openG70Window(){
+      this.$store.commit('points/openG70WindowMut')
+    }
   },
 };
 </script>

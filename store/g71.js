@@ -1,12 +1,15 @@
 export const state = () => ({
   prog: "",
+  oldProg: "",
+  tool: "",
+  progG70: "",
 });
 
 export const mutations = {
   createProgG71(state, objInfo) {
     let flag = false;
     state.prog = "";
-    state.prog += "%";
+    state.tool = objInfo.numTool;
     if (objInfo.numTool >= 10) {
       state.prog += `<div>T${objInfo.numTool}${objInfo.numTool};</div>`;
     } else {
@@ -15,10 +18,10 @@ export const mutations = {
     state.prog += `<div>G50 S2500;</div>`;
     state.prog += `<div>G96 S${objInfo.speed} M3;</div>`;
     state.prog += `<div>G00 X${
-      objInfo.points[objInfo.points.length - 1].pointX + 5
+      objInfo.points[objInfo.points.length - 1].y + 5
     };</div>`;
-    state.prog += `<div>Z${objInfo.points[0].pointY + 10} M8;</div>`;
-    state.prog += `<div>G01 Z${objInfo.points[0].pointY + 2} F0.5;</div>`;
+    state.prog += `<div>Z${objInfo.points[0].x + 10} M8;</div>`;
+    state.prog += `<div>G01 Z${objInfo.points[0].x + 2} F0.5;</div>`;
     state.prog += `<div>G71 U${objInfo.ap} R${objInfo.apUp};</div>`;
     state.prog += `<div>G71 P1 Q2 U${objInfo.allowanceX} W${objInfo.allowanceZ} F${objInfo.feed};</div>`;
 
@@ -59,9 +62,50 @@ export const mutations = {
     }
     state.prog += `<div>G00 Z150 M9;</div>`;
     state.prog += `<div>M30;</div>`;
-    state.prog += "%";
+    state.oldProg = state.prog;
   },
   clearProg(state) {
     state.prog = "";
+    state.oldProg = "";
+  },
+  createProgG70(state, objInfo) {
+    state.prog = state.oldProg;
+    state.progG70 = "";
+    if (state.prog) {
+      state.progG70 = "<p></p>";
+      if (objInfo.numTool2 === state.tool) {
+        state.progG70 += `<div>G96 S${objInfo.speed2} M3;</div>`;
+        state.progG70 += `<div>G00 X${
+          objInfo.points[objInfo.points.length - 1].y + 5
+        };</div>`;
+        state.progG70 += `<div>Z${objInfo.points[0].x + 10} M8;</div>`;
+        state.progG70 += `<div>G01 Z${objInfo.points[0].x + 2} F0.5;</div>`;
+        state.progG70 += `<div>G70 P1 Q2 F${objInfo.feed2};</div>`;
+        state.progG70 += `<div>G00 Z150 M9;</div>`;
+        state.progG70 += `<div>M30;</div>`;
+        state.prog = state.prog.replace("M30;", "<div></div>");
+        state.prog += state.progG70;
+      } else {
+        if (objInfo.numTool2 >= 10) {
+          state.progG70 += `<div>T${objInfo.numTool2}${objInfo.numTool2};</div>`;
+        } else {
+          state.progG70 += `<div>T0${objInfo.numTool2}0${objInfo.numTool2};</div>`;
+        }
+        state.progG70 += `<div>G50 S2500;</div>`;
+        state.progG70 += `<div>G96 S${objInfo.speed2} M3;</div>`;
+        state.progG70 += `<div>G00 X${
+          objInfo.points[objInfo.points.length - 1].y + 5
+        };</div>`;
+        state.progG70 += `<div>Z${objInfo.points[0].x + 10} M8;</div>`;
+        state.progG70 += `<div>G01 Z${objInfo.points[0].x + 2} F0.5;</div>`;
+        state.progG70 += `<div>G70 P1 Q2 F${objInfo.feed2};</div>`;
+        state.progG70 += `<div>G00 Z150 M9;</div>`;
+        state.progG70 += `<div>M30;</div>`;
+        state.prog = state.prog.replace("M30;", "<div></div>");
+        state.prog += state.progG70;
+      }
+    } else {
+      alert("Необходима программа G71");
+    }
   },
 };

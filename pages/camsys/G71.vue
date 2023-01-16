@@ -3,6 +3,9 @@
 
     <div class='app__input__cut'>
       <InputCutG71 />
+      <div v-if="$store.state.points.showG70Window">
+        <InputCutG70 />
+      </div>
       <ProgramPrint />
     </div>
 
@@ -49,7 +52,6 @@
 .app__input__cut {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   height: 100vh;
   flex: 1
 }
@@ -57,7 +59,6 @@
 .app__graf {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   height: 100vh;
   flex: 2
 }
@@ -73,14 +74,12 @@
 .app__point__add {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   flex: 1
 }
 
 .app__point__list {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   flex: 3;
 }
 

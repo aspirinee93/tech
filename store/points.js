@@ -4,6 +4,7 @@ export const state = () => ({
   showWinUpdatePoint: false,
   showWinAddPointByIndex: false,
   showUpdateToRadiusWindow: false,
+  showG70Window: false,
   flag: false,
 });
 
@@ -73,6 +74,12 @@ export const mutations = {
   flagFalse(state) {
     state.flag = false;
   },
+  openG70WindowMut(state){
+    state.showG70Window = true;
+  },
+  closeG70WindowMut(state){
+    state.showG70Window = false;
+  }
 };
 
 export const actions = {
